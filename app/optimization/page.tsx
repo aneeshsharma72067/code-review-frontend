@@ -7,7 +7,7 @@ import { CodeIcon } from "lucide-react";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
-export default function CodeReviewEditorPage() {
+export default function CodeOptimizationEditorPage() {
   return (
     <div className="flex flex-col h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
