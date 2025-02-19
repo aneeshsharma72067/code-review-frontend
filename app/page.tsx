@@ -23,22 +23,22 @@ export default function Home() {
         </nav>
       </header>
       <main className="flex-1 flex flex-col items-center">
-      <section className="w-full py-28 h-screen flex justify-center items-center">
-          <div className="container px-4 md:px-6 flex flex-col items-center text-center space-y-12">
-            <div className="space-y-8 flex flex-col items-center">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                AI-Powered Code Review
-              </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                Enhance your code quality with our advanced AI-powered code review system. Upload your file or enter a
-                GitHub repo link to get started.
-              </p>
+        <section className="w-full py-28 h-screen flex justify-center items-center">
+            <div className="container px-4 md:px-6 flex flex-col items-center text-center space-y-12">
+              <div className="space-y-8 flex flex-col items-center">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+                  AI-Powered Code Review
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                  Enhance your code quality with our advanced AI-powered code review system. Upload your file or enter a
+                  GitHub repo link to get started.
+                </p>
+              </div>
+              <div className="w-full max-w-sm mt-10">
+                <CodeReviewInput />
+              </div>
             </div>
-            <div className="w-full max-w-sm mt-10">
-              <CodeReviewInput />
-            </div>
-          </div>
-        </section>
+          </section>
 
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800 flex justify-center items-center">
           <div className="container px-4 md:px-6 text-center">
