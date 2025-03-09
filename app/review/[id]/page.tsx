@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CodeIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function ReviewPage() {
   const codeQualityScore = 85;
@@ -16,8 +17,12 @@ export default function ReviewPage() {
       ? "Average"
       : "Needs Improvement";
 
+  const router = useRouter();
+  const pathname = usePathname().split("/");
+  const uuid = pathname[pathname.length - 1];
+
   const handleOptimizeCode = () => {
-    console.log("Optimize Code clicked");
+    router.push(`/optimization/${uuid}`);
   };
 
   return (
@@ -82,16 +87,10 @@ export default function ReviewPage() {
           © 2024 AI Code Review. All rights reserved.
         </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link
-            href="#"
-            className="text-xs hover:underline underline-offset-4"
-          >
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
             Terms of Service
           </Link>
-          <Link
-            href="#"
-            className="text-xs hover:underline underline-offset-4"
-          >
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
             Privacy
           </Link>
         </nav>

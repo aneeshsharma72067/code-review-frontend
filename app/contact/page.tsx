@@ -1,8 +1,10 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { CodeIcon, MailIcon, PhoneIcon, MapPinIcon } from "lucide-react"
+"use client";
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { CodeIcon, MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -13,13 +15,22 @@ export default function ContactPage() {
           <span className="font-bold">AI Code Review</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="/"
+          >
             Home
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="/about"
+          >
             About
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/contact">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="/contact"
+          >
             Contact
           </Link>
         </nav>
@@ -33,7 +44,10 @@ export default function ContactPage() {
                   Contact Us
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  We're here to help. Reach out to us for any questions or support. If you have any questions, feedback, or need assistance with our AI Code Review system, please don't hesitate to get in touch.
+                  We're here to help. Reach out to us for any questions or
+                  support. If you have any questions, feedback, or need
+                  assistance with our AI Code Review system, please don't
+                  hesitate to get in touch.
                 </p>
               </div>
             </div>
@@ -45,7 +59,8 @@ export default function ContactPage() {
               <div className="space-y-4 rounded-lg border-2 border-red-500 text-slate-900 flex flex-col items-start justify-start p-8">
                 <h2 className="text-3xl font-bold">Get in Touch</h2>
                 <p>
-                  Fill out the form and we'll get back to you as soon as possible.
+                  Fill out the form and we'll get back to you as soon as
+                  possible.
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
@@ -75,11 +90,21 @@ export default function ContactPage() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email">Email</label>
-                  <Input id="email" placeholder="john@example.com" required type="email" />
+                  <Input
+                    id="email"
+                    placeholder="john@example.com"
+                    required
+                    type="email"
+                  />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message">Message</label>
-                  <Textarea className="min-h-[100px]" id="message" placeholder="Enter your message" required />
+                  <Textarea
+                    className="min-h-[100px]"
+                    id="message"
+                    placeholder="Enter your message"
+                    required
+                  />
                 </div>
                 <Button type="submit" className="w-full">
                   Send Message
@@ -90,7 +115,9 @@ export default function ContactPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 AI Code Review. All rights reserved.</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          © 2024 AI Code Review. All rights reserved.
+        </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
@@ -101,6 +128,5 @@ export default function ContactPage() {
         </nav>
       </footer>
     </div>
-  )
+  );
 }
-
