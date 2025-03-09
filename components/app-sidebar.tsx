@@ -7,43 +7,19 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import {
-  Ellipsis,
-  Loader2,
-  LogOut,
-  MessageSquare,
-  Pencil,
-  Plus,
-  Trash,
-} from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useFiles } from "@/context/FileContext";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
+import { useParams } from "next/navigation";
 
 export function AppSidebar() {
-  const [title, setTitle] = useState("New Chat");
-  const [isOpen, setIsOpen] = useState(false);
-  const [titleLoader, setTitleLoader] = useState(false);
-  const [logoutLoader, setLogoutLoader] = useState(false);
-  const [renameDialog, setRenameDialog] = useState(false);
-  const [chatToRename, setChatToRename] = useState("");
-  const router = useRouter();
+  const { files } = useFiles();
+
+  const { id } = useParams();
 
   return (
-    <Sidebar collapsible="offcanvas">
+    <Sidebar collapsible="none" className="">
       <SidebarHeader></SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -51,7 +27,23 @@ export function AppSidebar() {
             <div>Code Files</div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu></SidebarMenu>
+            <SidebarMenu className="gap-2 ">
+              {files.map((file, index) => {
+                return (
+                  <SidebarMenuItem
+                    key={index}
+                    className=" duration-300 hover:bg-gray-200"
+                  >
+                    <Link
+                      href={`/optimization/${id}/${file.webkitRelativePath}`}
+                      className="text-base text-zinc-800"
+                    >
+                      {file.webkitRelativePath}
+                    </Link>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup />

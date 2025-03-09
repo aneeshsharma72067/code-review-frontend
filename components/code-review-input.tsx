@@ -4,10 +4,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FileUploadArea } from "./file-upload-area";
 import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useFiles } from "@/context/FileContext";
 
 const generateUid = () => {
   return "xxxx-xxxx-4xxx-yxxx".replace(/[xy]/g, function (c) {
@@ -19,20 +21,29 @@ const generateUid = () => {
 
 export function CodeReviewInput() {
   const [inputType, setInputType] = useState<"file" | "github">("file");
-  const [files, setFiles] = useState<File[] | null>(null);
+  const { files, file, allowMultpleFiles, setAllowMultipleFiles } = useFiles();
   const [githubRepo, setGithubRepo] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (inputType === "file" && files) {
-      console.log("Submitting file:", files[0].name);
+    if (inputType === "file") {
+      if (allowMultpleFiles && files) {
+        if (files.length === 0) {
+          alert("Please select at least 1 file");
+        } else {
+          router.push(`/review/${generateUid()}`);
+        }
+      } else {
+        if (!file) {
+          alert("Please select at least 1 file");
+        } else {
+          router.push(`/review/${generateUid()}`);
+        }
+      }
     } else if (inputType === "github" && githubRepo) {
       console.log("Submitting GitHub repo:", githubRepo);
     }
-  };
-
-  const handleFileSelect = (selectedFile: File[]) => {
-    setFiles(selectedFile);
   };
 
   return (
@@ -67,10 +78,20 @@ export function CodeReviewInput() {
           GitHub Repo
         </button>
       </div>
-
+      {inputType === "file" && (
+        <div className="w-full flex items-center justify-center">
+          <div className="flex flex-1 items-center justify-center space-x-2">
+            <Switch
+              id="airplane-mode"
+              onCheckedChange={setAllowMultipleFiles}
+            />
+            <Label htmlFor="airplane-mode">Allow Multiple files</Label>
+          </div>
+        </div>
+      )}
       <div className="space-y-4">
         {inputType === "file" ? (
-          <FileUploadArea onFileSelect={handleFileSelect} />
+          <FileUploadArea />
         ) : (
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="github-repo">GitHub Repository URL</Label>

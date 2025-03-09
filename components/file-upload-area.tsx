@@ -3,20 +3,18 @@
 import type React from "react";
 import { useState, useRef } from "react";
 import { FileIcon, UploadIcon } from "lucide-react";
-
-interface FileUploadAreaProps {
-  onFileSelect: (files: File[]) => void; // Updated to accept multiple files
-}
+import { useFiles } from "@/context/FileContext";
 
 declare module "react" {
   interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
     webkitdirectory?: string;
+    directory?: string;
   }
 }
 
-export function FileUploadArea({ onFileSelect }: FileUploadAreaProps) {
+export function FileUploadArea() {
+  const { files, setFiles, file, setFile, allowMultpleFiles } = useFiles();
   const [isDragging, setIsDragging] = useState(false);
-  const [fileNames, setFileNames] = useState<string[]>([]); // Array to store file names
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -47,16 +45,26 @@ export function FileUploadArea({ onFileSelect }: FileUploadAreaProps) {
     }
   };
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMultpleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files && files.length > 0) {
       handleFiles(files);
     }
   };
 
-  const handleFiles = (files: File[]) => {
-    setFileNames(files.map((file) => file.name)); // Store all file names
-    onFileSelect(files); // Send all files to the parent component
+  const handleSingleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files && files.length > 0) {
+      handleFile(files[0]);
+    }
+  };
+
+  const handleFiles = (inputFiles: File[]) => {
+    setFiles(inputFiles); // Store all file names
+  };
+
+  const handleFile = (inputFile: File) => {
+    setFile(inputFile); // Send all files to the parent component
   };
 
   const handleClick = () => {
@@ -76,36 +84,78 @@ export function FileUploadArea({ onFileSelect }: FileUploadAreaProps) {
       onDrop={handleDrop}
       onClick={handleClick}
     >
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileInput}
-        multiple
-        webkitdirectory=""
-        className="hidden"
-      />
+      {allowMultpleFiles ? (
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleMultpleFileInput}
+          multiple
+          webkitdirectory=""
+          accept=".js,.py,.cpp,.ts,.tsx,.jsx"
+          className="hidden"
+        />
+      ) : (
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleSingleFileInput}
+          accept=".js,.py,.cpp,.ts,.tsx,.jsx"
+          className="hidden"
+        />
+      )}
       <div className="flex flex-col items-center justify-center space-y-2">
-        {fileNames.length > 0 ? (
+        {allowMultpleFiles ? (
           <>
-            <FileIcon className="w-12 h-12 text-blue-500" />
-            <div className="space-y-1">
-              {fileNames.map((name, index) => (
-                <p key={index} className="text-sm font-medium text-gray-900">
-                  {name}
+            {files.length > 0 ? (
+              <>
+                <FileIcon className="w-12 h-12 text-blue-500" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    {files[0].name}
+                    {files.length > 1 && ` and ${files.length - 1} more files`}
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Click or drag to replace
                 </p>
-              ))}
-            </div>
-            <p className="text-xs text-gray-500">Click or drag to replace</p>
+              </>
+            ) : (
+              <>
+                <UploadIcon className="w-12 h-12 text-gray-400" />
+                <p className="text-sm font-medium text-gray-900">
+                  Click to upload or drag and drop
+                </p>
+                <p className="text-xs text-gray-500">
+                  ZIP, JS, TS, PY, JAVA, C, CPP (max. 100MB)
+                </p>
+              </>
+            )}
           </>
         ) : (
           <>
-            <UploadIcon className="w-12 h-12 text-gray-400" />
-            <p className="text-sm font-medium text-gray-900">
-              Click to upload or drag and drop
-            </p>
-            <p className="text-xs text-gray-500">
-              ZIP, JS, TS, PY, JAVA, C, CPP (max. 100MB)
-            </p>
+            {file ? (
+              <>
+                <FileIcon className="w-12 h-12 text-blue-500" />
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    {file.name}
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Click or drag to replace
+                </p>
+              </>
+            ) : (
+              <>
+                <UploadIcon className="w-12 h-12 text-gray-400" />
+                <p className="text-sm font-medium text-gray-900">
+                  Click to upload or drag and drop
+                </p>
+                <p className="text-xs text-gray-500">
+                  ZIP, JS, TS, PY, JAVA, C, CPP (max. 100MB)
+                </p>
+              </>
+            )}
           </>
         )}
       </div>
