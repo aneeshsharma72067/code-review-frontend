@@ -19,19 +19,19 @@ const generateUid = () => {
 
 export function CodeReviewInput() {
   const [inputType, setInputType] = useState<"file" | "github">("file");
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File[] | null>(null);
   const [githubRepo, setGithubRepo] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputType === "file" && file) {
-      console.log("Submitting file:", file.name);
+      console.log("Submitting file:", file[0].name);
     } else if (inputType === "github" && githubRepo) {
       console.log("Submitting GitHub repo:", githubRepo);
     }
   };
 
-  const handleFileSelect = (selectedFile: File) => {
+  const handleFileSelect = (selectedFile: File[]) => {
     setFile(selectedFile);
   };
 
@@ -84,8 +84,8 @@ export function CodeReviewInput() {
         )}
       </div>
 
-      <Button className="w-full">
-        {/* {inputType === "file" ? (
+      <Button type="submit" className="w-full">
+        {inputType === "file" ? (
           <>
             Start Code Review <ArrowRightIcon className="ml-2 h-4 w-4" />
           </>
@@ -93,8 +93,8 @@ export function CodeReviewInput() {
           <>
             <GitHubLogoIcon className="mr-2 h-4 w-4" /> Review GitHub Repo
           </>
-        )} */}
-        <Link href={`/review/${generateUid()}`}>Go</Link>
+        )}
+        {/* <Link href={`/review/${generateUid()}`}>Go</Link> */}
       </Button>
     </form>
   );
