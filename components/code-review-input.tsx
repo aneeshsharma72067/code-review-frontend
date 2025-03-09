@@ -19,20 +19,20 @@ const generateUid = () => {
 
 export function CodeReviewInput() {
   const [inputType, setInputType] = useState<"file" | "github">("file");
-  const [file, setFile] = useState<File[] | null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
   const [githubRepo, setGithubRepo] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (inputType === "file" && file) {
-      console.log("Submitting file:", file[0].name);
+    if (inputType === "file" && files) {
+      console.log("Submitting file:", files[0].name);
     } else if (inputType === "github" && githubRepo) {
       console.log("Submitting GitHub repo:", githubRepo);
     }
   };
 
   const handleFileSelect = (selectedFile: File[]) => {
-    setFile(selectedFile);
+    setFiles(selectedFile);
   };
 
   return (

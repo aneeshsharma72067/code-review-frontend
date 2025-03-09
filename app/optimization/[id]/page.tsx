@@ -43,7 +43,7 @@ export default function CodeOptimizationEditorPage() {
             <Editor
               height={400}
               width="100%"
-              defaultLanguage="javascript"
+              defaultLanguage="python"
               defaultValue={`// Editor 1: Write your code here...`}
             />
           </div>

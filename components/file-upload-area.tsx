@@ -8,6 +8,12 @@ interface FileUploadAreaProps {
   onFileSelect: (files: File[]) => void; // Updated to accept multiple files
 }
 
+declare module "react" {
+  interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+    webkitdirectory?: string;
+  }
+}
+
 export function FileUploadArea({ onFileSelect }: FileUploadAreaProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]); // Array to store file names
@@ -75,6 +81,7 @@ export function FileUploadArea({ onFileSelect }: FileUploadAreaProps) {
         ref={fileInputRef}
         onChange={handleFileInput}
         multiple
+        webkitdirectory=""
         className="hidden"
       />
       <div className="flex flex-col items-center justify-center space-y-2">
