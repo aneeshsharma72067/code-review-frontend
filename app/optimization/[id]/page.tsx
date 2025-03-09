@@ -2,15 +2,14 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { CodeIcon } from "lucide-react";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export default function CodeOptimizationEditorPage() {
   return (
-    <div className="flex-1 flex flex-col">
-      <header className="px-6 h-14 flex items-center">
+    <div className="flex flex-col min-h-screen">
+      <header className="px-6 h-14 flex items-center border-b">
         <Link className="flex items-center justify-center" href="/">
           <CodeIcon className="h-6 w-6 mr-2" />
           <span className="font-bold">AI Code Review</span>
@@ -37,47 +36,29 @@ export default function CodeOptimizationEditorPage() {
         </nav>
       </header>
 
-      <main className="flex flex-col">
-        <div className="flex w-11/12 gap-4 p-4">
-          <div className="flex-1 border border-gray-300 rounded-md overflow-hidden">
-            <Editor
-              height={400}
-              width="100%"
-              defaultLanguage="python"
-              defaultValue={`// Editor 1: Write your code here...`}
-            />
-          </div>
-          <div className="flex-1 border border-gray-300 rounded-md overflow-hidden">
+      <main className="flex-1 flex flex-col items-center p-6">
+        <h1 className="text-3xl font-bold mb-6">Code Optimization Editor</h1>
+        <div className="flex flex-1 w-full max-w-7xl gap-4">
+          <div className="flex-1 border border-gray-300 rounded-md overflow-hidden shadow-md h-full">
             <Editor
               height="100%"
               width="100%"
               defaultLanguage="javascript"
-              defaultValue={`// Editor 2: Write your code here...`}
+              defaultValue={`// Editor 1: Write your code here...`}
             />
           </div>
-        </div>
-
-        <div
-          className="border-t border-b p-4 h-40 overflow-y-auto bg-gray-50 resize-none"
-          contentEditable={false}
-          style={{ resize: "none" }}
-        >
-          <p className="text-gray-700">Prompt output will appear here...</p>
-        </div>
-
-        <div className="border-t p-4">
-          <div className="flex items-center gap-2">
-            <textarea
-              className="flex-1 border border-gray-300 p-2 rounded-md"
-              placeholder="Type your message here..."
-              rows={2}
+          <div className="flex-1 border border-gray-300 rounded-md overflow-hidden shadow-md h-full">
+            <Editor
+              height="100%"
+              width="100%"
+              defaultLanguage="python"
+              defaultValue={`# Editor 2: Write your optimized code here...`}
             />
-            <Button>Send</Button>
           </div>
         </div>
       </main>
 
-      <footer className="flex flex-col gap-2 sm:flex-row py-6  items-center px-4 md:px-6 border-t">
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-gray-500 dark:text-gray-400">
           © 2024 AI Code Review. All rights reserved.
         </p>

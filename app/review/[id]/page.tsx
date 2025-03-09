@@ -8,21 +8,21 @@ import { usePathname, useRouter } from "next/navigation";
 export default function ReviewPage() {
   const codeQualityScore = 50;
 
-  const getQualityText = (score) => {
+  const getQualityText = (score : number) => {
     if (score >= 90) return "Excellent";
     if (score >= 75) return "Very Good";
     if (score >= 50) return "Average";
     return "Needs Improvement";
   };
 
-  const getScoreColor = (score) => {
+  const getScoreColor = (score : number) => {
     if (score >= 90) return "text-green-600";
     if (score >= 75) return "text-blue-600";
     if (score >= 50) return "text-yellow-600";
     return "text-red-600";
   };
 
-  const getSuggestions = (score) => {
+  const getSuggestions = (score : number) => {
     if (score >= 90) return ["Keep following best practices", "Ensure proper documentation"];
     if (score >= 75) return ["Refactor complex functions", "Improve variable naming conventions"];
     if (score >= 50) return ["Optimize loops and conditions", "Reduce redundant code"];
