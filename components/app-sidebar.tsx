@@ -48,7 +48,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>
-            <div>Recent Chats</div>
+            <div>Code Files</div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu></SidebarMenu>
