@@ -87,7 +87,7 @@ export default function CodeOptimizationEditorPage() {
             <Editor
               height="100%"
               width="100%"
-              defaultLanguage="javascript"
+              language="javascript"
               value={fileContent.length ? fileContent : "Empty"}
             />
           </div>

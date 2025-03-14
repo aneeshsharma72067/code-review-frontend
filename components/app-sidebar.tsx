@@ -14,9 +14,9 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export function AppSidebar() {
-  const { files } = useFiles();
+  const { file, files, allowMultpleFiles } = useFiles();
 
-  const { id } = useParams();
+  const { id, filepath } = useParams();
 
   return (
     <Sidebar collapsible="none" className="">
@@ -28,21 +28,36 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2 ">
-              {files.map((file, index) => {
-                return (
-                  <SidebarMenuItem
-                    key={index}
-                    className=" duration-300 hover:bg-gray-200"
-                  >
+              {allowMultpleFiles ? (
+                <>
+                  {files.map((file, index) => {
+                    return (
+                      <SidebarMenuItem
+                        key={index}
+                        className=" duration-300 hover:bg-gray-200"
+                      >
+                        <Link
+                          href={`/optimization/${id}/${file.webkitRelativePath}`}
+                          className="text-base text-zinc-800"
+                        >
+                          {file.webkitRelativePath}
+                        </Link>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <SidebarMenuItem className=" duration-300 hover:bg-gray-200">
                     <Link
-                      href={`/optimization/${id}/${file.webkitRelativePath}`}
+                      href={`/optimization/${id}/${file?.name}`}
                       className="text-base text-zinc-800"
                     >
-                      {file.webkitRelativePath}
+                      {filepath}
                     </Link>
                   </SidebarMenuItem>
-                );
-              })}
+                </>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
