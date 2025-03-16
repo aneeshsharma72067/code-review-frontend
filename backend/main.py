@@ -2,9 +2,12 @@ import json
 import google.generativeai as genai
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv
 
-API_KEY = "AIzaSyA1i_dY_YKPV0ObSi72wVJUNEfTqbw-7NU"
-genai.configure(api_key=API_KEY)
+load_dotenv()
+
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 schema = {
     "name": "analyzeCodeQuality",
