@@ -87,3 +87,42 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* styles/globals.css or the specific CSS module */
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3498db; /* Change to any color you like */
+  opacity: 0;
+  animation: dot-blink 1.5s infinite;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s; /* First dot appears first */
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s; /* Second dot appears a bit later */
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s; /* Third dot appears last */
+}
+
+@keyframes dot-blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

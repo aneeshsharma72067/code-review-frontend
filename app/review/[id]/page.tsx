@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { CodeIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useFiles } from "@/context/FileContext";
+import { useEffect, useState } from "react";
+import { getSoftwareQualityScore } from "@/services";
 
 export default function ReviewPage() {
-  const codeQualityScore = 50;
+  const [codeQualityScore, setCodeQualityScore] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const getQualityText = (score: number) => {
     if (score >= 90) return "Excellent";
@@ -23,22 +27,8 @@ export default function ReviewPage() {
     return "text-red-600";
   };
 
-  const getSuggestions = (score: number) => {
-    if (score >= 90)
-      return ["Keep following best practices", "Ensure proper documentation"];
-    if (score >= 75)
-      return [
-        "Refactor complex functions",
-        "Improve variable naming conventions",
-      ];
-    if (score >= 50)
-      return ["Optimize loops and conditions", "Reduce redundant code"];
-    return ["Fix syntax errors", "Improve performance by removing bottlenecks"];
-  };
-
   const qualityText = getQualityText(codeQualityScore);
   const scoreColor = getScoreColor(codeQualityScore);
-  const suggestions = getSuggestions(codeQualityScore);
 
   const router = useRouter();
   const pathname = usePathname().split("/");
@@ -52,6 +42,60 @@ export default function ReviewPage() {
       router.push(`/optimization/${uuid}/${file?.name}`);
     }
   };
+
+  async function readFileContent(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        if (event.target && typeof event.target.result === "string") {
+          resolve(event.target.result);
+        } else {
+          reject(new Error("Failed to read file content."));
+        }
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsText(file);
+    });
+  }
+
+  useEffect(() => {
+    const fetchCodeScore = async () => {
+      if (!file || !loading) return;
+      setLoading(true);
+      console.log("loading true");
+
+      const fileContent = await readFileContent(file);
+      console.log("Fetching code score...");
+      const res = await getSoftwareQualityScore(fileContent);
+      console.log(res);
+      if (res.success) {
+        setCodeQualityScore(res.data.score);
+        setSuggestions(res.data.suggestions);
+      }
+      console.log("loading false");
+      setLoading(false);
+    };
+
+    fetchCodeScore();
+  }, []);
+  if (loading)
+    return (
+      <div className="flex flex-col min-h-screen items-center justify-center">
+        <div className="text-xl font-bold text-zinc-800">
+          Checking code quality
+        </div>
+        <div className="dots-container mt-4">
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex flex-col min-h-screen">
