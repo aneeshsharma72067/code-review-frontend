@@ -110,7 +110,7 @@ export function FileUploadArea() {
               <>
                 <FileIcon className="w-12 h-12 text-blue-500" />
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                     {files[0].name}
                     {files.length > 1 && ` and ${files.length - 1} more files`}
                   </p>
@@ -122,7 +122,7 @@ export function FileUploadArea() {
             ) : (
               <>
                 <UploadIcon className="w-12 h-12 text-gray-400" />
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   Click to upload or drag and drop
                 </p>
                 <p className="text-xs text-gray-500">

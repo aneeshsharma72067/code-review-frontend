@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { CodeIcon, GitBranchIcon, ZapIcon } from "lucide-react";
 import { CodeReviewInput } from "@/components/code-review-input";
+import { ModeToggle } from "@/components/theme-toggler";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
           <span className="font-bold">AI Code Review</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
+          <ModeToggle />
           <Link
             className="text-sm font-medium hover:underline underline-offset-4"
             href="/"

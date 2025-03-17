@@ -48,10 +48,10 @@ export function AppSidebar() {
                 </>
               ) : (
                 <>
-                  <SidebarMenuItem className=" duration-300 hover:bg-gray-200">
+                  <SidebarMenuItem className=" duration-300 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 rounded-md px-5">
                     <Link
                       href={`/optimization/${id}/${file?.name}`}
-                      className="text-base text-zinc-800"
+                      className="text-base text-zinc-800 dark:text-white"
                     >
                       {filepath}
                     </Link>

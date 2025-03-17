@@ -48,21 +48,22 @@ export function CodeReviewInput() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="relative inline-flex p-1 bg-gray-200 rounded-lg">
+      <div className="relative inline-flex p-1 bg-gray-200 dark:bg-zinc-900 rounded-lg">
         <div
-          className={`absolute inset-0 m-1 rounded transition-transform duration-200 ease-in-out ${
+          className={`absolute inset-0 m-1 text-zinc-900 bg-gray-50 dark:bg-black dark:text-white rounded transition-transform duration-200 ease-in-out ${
             inputType === "github" ? "translate-x-full" : ""
           }`}
           style={{
             width: "calc(50% - 4px)",
-            backgroundColor: "white",
             boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
           }}
         />
         <button
           type="button"
           className={`relative z-10 px-14 py-4 text-sm text-nowrap font-medium transition-colors duration-200 ${
-            inputType === "file" ? "text-gray-900" : "text-gray-500"
+            inputType === "file"
+              ? "text-gray-900 dark:text-white"
+              : "text-gray-500 dark:text-gray-400"
           }`}
           onClick={() => setInputType("file")}
         >
@@ -71,7 +72,9 @@ export function CodeReviewInput() {
         <button
           type="button"
           className={`relative z-10 px-14 py-4 text-sm text-nowrap font-medium transition-colors duration-200 ${
-            inputType === "github" ? "text-gray-900" : "text-gray-500"
+            inputType === "github"
+              ? "text-gray-900 dark:text-white"
+              : "text-gray-500 dark:text-gray-400"
           }`}
           onClick={() => setInputType("github")}
         >

@@ -10,7 +10,7 @@ import { getSoftwareQualityScore } from "@/services";
 
 export default function ReviewPage() {
   const [codeQualityScore, setCodeQualityScore] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const getQualityText = (score: number) => {
@@ -86,7 +86,7 @@ export default function ReviewPage() {
   if (loading)
     return (
       <div className="flex flex-col min-h-screen items-center justify-center">
-        <div className="text-xl font-bold text-zinc-800">
+        <div className="text-xl font-bold text-zinc-800 dark:text-zinc-100">
           Checking code quality
         </div>
         <div className="dots-container mt-4">
@@ -140,14 +140,14 @@ export default function ReviewPage() {
                 {codeQualityScore}
                 <span className="text-2xl font-medium">/100</span>
               </div>
-              <div className="text-xl font-bold text-gray-700">
+              <div className="text-xl font-bold text-gray-700 dark:text-white">
                 {qualityText}
               </div>
-              <div className="text-left max-w-md bg-gray-100 p-4 rounded-lg shadow-md">
+              <div className="text-left max-w-md bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md">
                 <h2 className="text-lg font-semibold">
                   Optimization Suggestions:
                 </h2>
-                <ul className="list-disc list-inside text-gray-700 mt-2">
+                <ul className="list-disc list-inside text-gray-700 dark:text-gray-50 mt-2">
                   {suggestions.map((suggestion, index) => (
                     <li key={index}>{suggestion}</li>
                   ))}
