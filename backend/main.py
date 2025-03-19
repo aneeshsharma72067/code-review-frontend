@@ -26,6 +26,21 @@ schema = {
     },
 }
 
+optimization_schema = {
+    "name": "optimizeCode",
+    "description": "Optimize the code for better performance",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "optimized_code":{
+                "description":"The optimized code",
+                "type":"string"
+            }
+        },
+        "required": ["optimized_code"],
+    },
+}
+
 model = genai.GenerativeModel('gemini-2.0-flash')
 
 app = Flask(__name__)
@@ -42,8 +57,8 @@ def analyze_code():
     print(response)
     if hasattr(response, 'candidates') and len(response.candidates) > 0:
         candidate = response.candidates[0]
-        if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts') and len(candidate.content.parts) > 1:
-            function_call = candidate.content.parts[1].function_call  # Correcting the index here
+        if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts'):
+            function_call = candidate.content.parts[0].function_call  # Correcting the index here
             if function_call:
                 args = function_call.args
                 score = args.get('score')
@@ -60,6 +75,35 @@ def analyze_code():
     else:
         print("Invalid response structure: no candidates found.")
         return jsonify({"error": "Invalid response structure."}), 500
+
+@app.route('/optimize', methods=['POST'])
+def optimize_code():
+    code = request.json.get('code')
+    if not code:
+        return jsonify({"error": "No code provided"}), 400
+    prompt = f"""{code}"""
+
+    response = model.generate_content(prompt, tools=[{'function_declarations': [optimization_schema]}])
+    print(response)
+    if hasattr(response, 'candidates') and len(response.candidates) > 0:
+        candidate = response.candidates[0]
+        if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts') and len(candidate.content.parts) > 0:
+            function_call = candidate.content.parts[0].function_call  # Correcting the index here
+            if function_call:
+                args = function_call.args
+                optimized_code = args.get('optimized_code')
+                result = {"optimized_code": optimized_code}
+                return jsonify(result)
+            else:
+                print("No function call found in the response.")
+                return jsonify({"error": "Function call failed or no function call was made."}), 500
+        else:
+            print("Invalid response structure: missing parts or content.")
+            return jsonify({"error": "Invalid response structure."}), 500
+    else:
+        print("Invalid response structure: no candidates found.")
+        return jsonify({"error": "Invalid response structure."}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

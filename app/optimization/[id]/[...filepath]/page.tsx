@@ -6,12 +6,14 @@ import { CodeIcon } from "lucide-react";
 import { useFiles } from "@/context/FileContext";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { getOptimizedCode } from "@/services";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export default function CodeOptimizationEditorPage() {
   const { file, files } = useFiles();
   const [fileContent, setFileContent] = useState<string>("");
+  const [optimizedfileContent, setOptimizedFileContent] = useState<string>("");
 
   const params = useParams();
   const { id, filepath } = params;
@@ -48,8 +50,17 @@ export default function CodeOptimizationEditorPage() {
     }
   };
   useEffect(() => {
+    const fetchOptimizedCode = async () => {
+      console.log("optimizing code....");
+      const res = await getOptimizedCode(fileContent);
+      setOptimizedFileContent(res.data.optimized_code);
+      console.log("code optimized....");
+    };
     getFileContent();
-  }, [fullFilePath]);
+    if (fileContent) {
+      fetchOptimizedCode();
+    }
+  }, [fullFilePath, fileContent]);
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-6 h-14 flex items-center border-b">
@@ -87,7 +98,7 @@ export default function CodeOptimizationEditorPage() {
             <Editor
               height="100%"
               width="100%"
-              language="javascript"
+              language="python"
               value={fileContent.length ? fileContent : "Empty"}
             />
           </div>
@@ -96,7 +107,9 @@ export default function CodeOptimizationEditorPage() {
               height="100%"
               width="100%"
               defaultLanguage="python"
-              defaultValue={`# Editor 2: Write your optimized code here...`}
+              value={
+                optimizedfileContent.length ? optimizedfileContent : "Empty"
+              }
             />
           </div>
         </div>

@@ -82,7 +82,7 @@ export function CodeReviewInput() {
         </button>
       </div>
       {inputType === "file" && (
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full hidden  items-center justify-center">
           <div className="flex flex-1 items-center justify-center space-x-2">
             <Switch
               id="airplane-mode"
