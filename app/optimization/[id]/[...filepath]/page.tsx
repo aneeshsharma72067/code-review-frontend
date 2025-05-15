@@ -100,6 +100,7 @@ export default function CodeOptimizationEditorPage() {
               width="100%"
               language="python"
               value={fileContent.length ? fileContent : "Empty"}
+              theme="vs-dark"
             />
           </div>
           <div className="flex-1 border border-gray-300 rounded-md overflow-hidden shadow-md h-full">
@@ -107,9 +108,7 @@ export default function CodeOptimizationEditorPage() {
               height="100%"
               width="100%"
               defaultLanguage="python"
-              value={
-                optimizedfileContent.length ? optimizedfileContent : "Empty"
-              }
+              value={optimizedfileContent ?? "Empty"}
             />
           </div>
         </div>
