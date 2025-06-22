@@ -10,7 +10,7 @@ import { getSoftwareQualityScore } from '@/services';
 
 export default function ReviewPage() {
   const [codeQualityScore, setCodeQualityScore] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const getQualityText = (score: number) => {
