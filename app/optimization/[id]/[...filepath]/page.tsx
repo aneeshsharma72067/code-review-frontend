@@ -53,7 +53,9 @@ export default function CodeOptimizationEditorPage() {
     const fetchOptimizedCode = async () => {
       console.log('optimizing code....');
       const res = await getOptimizedCode(fileContent);
-      setOptimizedFileContent(res.data.optimized_code);
+      setTimeout(() => {
+        setOptimizedFileContent(res.data.optimized_code);
+      }, 2000);
       console.log('code optimized....');
     };
     getFileContent();
