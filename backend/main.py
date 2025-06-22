@@ -56,26 +56,31 @@ def analyze_code():
         return jsonify({"error": "No code provided"}), 400
     prompt = f"""{code}"""
     print(repr(code))
+    
     if prompt in cached_result:
         result = cached_result[prompt]
         return jsonify({"score": result['score'], "suggestions": result['suggestions']})
-    # return jsonify({"score":100, "suggestions":['a','b']})
+    
     response = model.generate_content(prompt, tools=[{'function_declarations': [schema]}])
     print(response)
+    
     if hasattr(response, 'candidates') and len(response.candidates) > 0:
         candidate = response.candidates[0]
-        if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts'):
-            function_call = candidate.content.parts[0].function_call  # Correcting the index here
-            if function_call:
-                args = function_call.args
-                score = args.get('score')
-                suggestions = args.get('suggestions')
-                suggestions_list = [suggestion for suggestion in suggestions]
-                result = {"score": score, "suggestions": suggestions_list}
-                return jsonify(result)
+        
+        if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts') and len(candidate.content.parts) > 0:
+            for part in candidate.content.parts:
+                if hasattr(part, 'function_call'):
+                    function_call = part.function_call
+                    if function_call:
+                        args = function_call.args
+                        score = args.get('score')
+                        suggestions = args.get('suggestions', [])
+                        suggestions_list = [s for s in suggestions]
+                        result = {"score": score, "suggestions": suggestions_list}
+                        return jsonify(result)
             else:
-                print("No function call found in the response.")
-                return jsonify({"error": "Function call failed or no function call was made."}), 500
+                print("No valid function call found in any part.")
+                return jsonify({"error": "No valid function call found."}), 500
         else:
             print("Invalid response structure: missing parts or content.")
             return jsonify({"error": "Invalid response structure."}), 500
