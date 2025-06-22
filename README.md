@@ -1,4 +1,4 @@
-## AI Based Code Review
+## AI Based Code Review and Optimization
 
 This is a Web app which allows developers to upload their codebase through files or provice a github repo which uses Microsoft CodeBERT AI model to analyse the code and suggest optimizations to the codebase.
 
@@ -25,6 +25,9 @@ Hugging Face, Inc. is an American company that develops computational tools for 
 
 ### Kaggle
 Kaggle is a data science competition platform and online community for data scientists and machine learning practitioners under Google LLC.
+
+### Google Gemini
+Google Gemini is a multimodal large language model (LLM) developed by Google, designed to simulate human conversations using natural language processing (NLP) and machine learning.
 
 
 
