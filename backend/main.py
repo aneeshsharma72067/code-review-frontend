@@ -60,9 +60,11 @@ def analyze_code():
     if prompt in cached_result:
         result = cached_result[prompt]
         return jsonify({"score": result['score'], "suggestions": result['suggestions']})
+    print('gemini api start')
     
     response = model.generate_content(prompt, tools=[{'function_declarations': [schema]}])
     print(response)
+    print('gemini api end')
     
     if hasattr(response, 'candidates') and len(response.candidates) > 0:
         candidate = response.candidates[0]

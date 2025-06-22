@@ -10,7 +10,7 @@ import { getSoftwareQualityScore } from '@/services';
 
 export default function ReviewPage() {
   const [codeQualityScore, setCodeQualityScore] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const getQualityText = (score: number) => {
@@ -73,7 +73,7 @@ export default function ReviewPage() {
       console.log('loading true');
 
       const fileContent = await readFileContent(file);
-      console.log('Fetching code score...', fileContent);
+      console.log('Fetching code score...');
       const res = await getSoftwareQualityScore(fileContent);
       console.log(res);
 
